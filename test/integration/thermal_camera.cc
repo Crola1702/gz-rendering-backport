@@ -20,6 +20,7 @@
 #include <gz/common/Console.hh>
 #include <gz/common/Filesystem.hh>
 #include <gz/common/Event.hh>
+#include <gz/utils/ExtraTestMacros.hh>
 
 #include <gz/math/Color.hh>
 
@@ -628,7 +629,9 @@ void ThermalCameraTest::ThermalCameraParticles(
   gz::rendering::unloadEngine(engine->Name());
 }
 
-TEST_P(ThermalCameraTest, ThermalCameraBoxesUniformTemp)
+// See: https://github.com/gazebosim/gz-rendering/issues/654
+TEST_P(ThermalCameraTest,
+       GZ_UTILS_TEST_DISABLED_ON_MAC(ThermalCameraBoxesUniformTemp))
 {
   ThermalCameraBoxes(GetParam(), false);
 }

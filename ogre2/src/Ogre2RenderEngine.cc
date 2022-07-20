@@ -15,8 +15,7 @@
  *
  */
 
-// Not Apple or Windows
-#if !defined(__APPLE__) && !defined(_WIN32)
+#if HAVE_GLX
 # include <X11/Xlib.h>
 # include <X11/Xutil.h>
 # include <GL/glx.h>
@@ -54,7 +53,7 @@
 class GZ_RENDERING_OGRE2_HIDDEN
     gz::rendering::Ogre2RenderEnginePrivate
 {
-#if !defined(__APPLE__) && !defined(_WIN32)
+#if HAVE_GLX
   public: GLXFBConfig* dummyFBConfigs = nullptr;
 #endif
 
@@ -174,7 +173,7 @@ void Ogre2RenderEngine::Destroy()
   delete this->ogreLogManager;
   this->ogreLogManager = nullptr;
 
-#if not (__APPLE__ || _WIN32)
+#if HAVE_GLX
   if (this->dummyDisplay)
   {
     Display *x11Display = static_cast<Display*>(this->dummyDisplay);
@@ -397,12 +396,13 @@ void Ogre2RenderEngine::CreateLogger()
 //////////////////////////////////////////////////
 void Ogre2RenderEngine::CreateContext()
 {
-#if not (__APPLE__ || _WIN32)
+#if !defined(__APPLE__) && !defined(_WIN32)
   if (this->Headless())
   {
     // Nothing to do
     return;
   }
+#if HAVE_GLX
   // create X11 display
   this->dummyDisplay = XOpenDisplay(0);
   Display *x11Display = static_cast<Display*>(this->dummyDisplay);
@@ -477,6 +477,7 @@ void Ogre2RenderEngine::CreateContext()
 
   // select X11 context
   glXMakeCurrent(x11Display, this->dummyWindowId, x11Context);
+#endif
 #endif
 }
 

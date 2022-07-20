@@ -585,9 +585,9 @@ uint8_t Ogre2RenderTarget::TargetFSAA() const
       gzwarn << "Anti-aliasing level of '" << this->antiAliasing << "' "
               << "is not supported; valid FSAA levels are: " << os.str()
               << ". Setting to 0" << std::endl;
-      targetFSAA = 0u;
       ogre2FSAAWarn = true;
     }
+    targetFSAA = 0u;
   }
 
   if (targetFSAA == 0u)
@@ -862,12 +862,16 @@ void Ogre2RenderTarget::RebuildMaterial()
 //////////////////////////////////////////////////
 // Ogre2RenderTexture
 //////////////////////////////////////////////////
+#ifndef _WIN32
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
 Ogre2RenderTexture::Ogre2RenderTexture()
 {
 }
+#ifndef _WIN32
 #pragma GCC diagnostic pop
+#endif
 
 //////////////////////////////////////////////////
 Ogre2RenderTexture::~Ogre2RenderTexture()

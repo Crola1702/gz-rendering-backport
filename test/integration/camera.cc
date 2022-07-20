@@ -18,6 +18,7 @@
 #include <gtest/gtest.h>
 
 #include <gz/common/Console.hh>
+#include <gz/utils/ExtraTestMacros.hh>
 
 #include "test_config.hh"  // NOLINT(build/include)
 
@@ -776,6 +777,15 @@ void CameraTest::ShaderSelection(const std::string &_renderEngine)
 
   // Clean up
   engine->DestroyScene(scene);
+
+  ASSERT_EQ(1u, camera.use_count());
+  ASSERT_EQ(1u, gpuRays.use_count());
+  ASSERT_EQ(1u, thermalCamera.use_count());
+  if (segmentationCamera)
+  {
+    ASSERT_EQ(1u, segmentationCamera.use_count());
+  }
+
   rendering::unloadEngine(engine->Name());
 }
 
@@ -804,7 +814,9 @@ TEST_P(CameraTest, VisualAt)
 }
 
 /////////////////////////////////////////////////
-TEST_P(CameraTest, ShaderSelection)
+// See: https://github.com/gazebosim/gz-rendering/issues/654
+TEST_P(CameraTest,
+       GZ_UTILS_TEST_DISABLED_ON_MAC(ShaderSelection))
 {
   ShaderSelection(GetParam());
 }
