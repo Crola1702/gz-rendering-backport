@@ -458,7 +458,7 @@ TEST_P(BoundingBoxCameraTest, Oriented3dBoxes)
   Oriented3dBoxes(GetParam());
 }
 
-INSTANTIATE_TEST_CASE_P(BoundingBoxCamera, BoundingBoxCameraTest,
+INSTANTIATE_TEST_SUITE_P(BoundingBoxCamera, BoundingBoxCameraTest,
     RENDER_ENGINE_VALUES, gz::rendering::PrintToStringParam());
 
 //////////////////////////////////////////////////

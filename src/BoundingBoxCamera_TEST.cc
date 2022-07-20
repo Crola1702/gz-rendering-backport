@@ -17,15 +17,15 @@
 
 #include <gtest/gtest.h>
 
-#include <ignition/common/Console.hh>
+#include <gz/common/Console.hh>
 
 #include "test_config.hh"  // NOLINT(build/include)
-#include "ignition/rendering/BoundingBoxCamera.hh"
-#include "ignition/rendering/RenderEngine.hh"
-#include "ignition/rendering/RenderingIface.hh"
-#include "ignition/rendering/Scene.hh"
+#include "gz/rendering/BoundingBoxCamera.hh"
+#include "gz/rendering/RenderEngine.hh"
+#include "gz/rendering/RenderingIface.hh"
+#include "gz/rendering/Scene.hh"
 
-using namespace ignition;
+using namespace gz;
 using namespace rendering;
 
 class BoundingBoxCameraTest : public testing::Test,
@@ -42,7 +42,7 @@ void BoundingBoxCameraTest::BoundingBoxCamera(const std::string &_renderEngine)
   if (_renderEngine.compare("optix") == 0 ||
       _renderEngine.compare("ogre") == 0)
   {
-    igndbg << "Engine '" << _renderEngine
+    gzdbg << "Engine '" << _renderEngine
            << "' doesn't support bounding box cameras" << std::endl;
     return;
   }
@@ -51,7 +51,7 @@ void BoundingBoxCameraTest::BoundingBoxCamera(const std::string &_renderEngine)
   RenderEngine *engine = rendering::engine(_renderEngine);
   if (!engine)
   {
-    igndbg << "Engine '" << _renderEngine
+    gzdbg << "Engine '" << _renderEngine
               << "' is not supported" << std::endl;
     return;
   }
@@ -76,7 +76,7 @@ void BoundingBoxCameraTest::BoundingBoxCamera(const std::string &_renderEngine)
 
   camera->SetImageWidth(width);
   camera->SetImageHeight(height);
-  camera->DrawBoundingBox(data, ignition::math::Color::Green, box);
+  camera->DrawBoundingBox(data, gz::math::Color::Green, box);
 
   // test the boundaries (min & max box's points) color
   uint32_t minX = uint32_t(box.Center().X() - box.Size().X() / 2);
@@ -106,9 +106,9 @@ TEST_P(BoundingBoxCameraTest, BoundingBoxCamera)
   BoundingBoxCamera(GetParam());
 }
 
-INSTANTIATE_TEST_CASE_P(BoundingBoxCamera, BoundingBoxCameraTest,
+INSTANTIATE_TEST_SUITE_P(BoundingBoxCamera, BoundingBoxCameraTest,
     RENDER_ENGINE_VALUES,
-    ignition::rendering::PrintToStringParam());
+    gz::rendering::PrintToStringParam());
 
 int main(int argc, char **argv)
 {

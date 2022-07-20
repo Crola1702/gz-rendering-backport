@@ -404,7 +404,7 @@ void Ogre2LaserRetroMaterialSwitcher::passPreExecute(
           {
             try
             {
-              retroValue = std::get<int>(tempLaserRetro);
+              retroValue = static_cast<float>(std::get<int>(tempLaserRetro));
             }
             catch (std::bad_variant_access &e)
             {
